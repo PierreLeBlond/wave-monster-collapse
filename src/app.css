@@ -1,0 +1,16 @@
+@font-face {
+  font-family: virgil;
+  src: url(Virgil.woff2);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #EEE;
+  font-family: 'virgil';
+}
