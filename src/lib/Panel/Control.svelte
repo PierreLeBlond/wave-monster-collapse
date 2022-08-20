@@ -8,8 +8,8 @@
   <h2> Control </h2>
 
   <label>
-    <input type=number bind:value={mapSize} min=1 max=50>
-    <input type=range bind:value={mapSize} min=1 max=50>
+    <input type=number bind:value={mapSize} min=1 max=100>
+    <input type=range bind:value={mapSize} min=1 max=100>
   </label>
 </div>
 

@@ -1,96 +1,89 @@
 import type { Pattern } from './Pattern';
 import type { WaveElement } from './WaveElement';
-import reduceWaveElement from './reduceWaveElement';
 import getEntropy from './getEntropy';
 import collapseWaveElement from './collapseWaveElement';
-import getTranslations from './getTranslations';
 import type { Wave } from './Wave';
+import type { CompatibilityMaps } from './CompatibilityMaps';
+import propagateWave from './propagateWave';
 
-const hasCollapsed = (wave: Wave) =>
-	wave.elements.every((elementsColumn) => elementsColumn.every((waveElement) => waveElement.entropy == 0));
-
-const getWaveElementWithLowestEntropy = (wave: Wave): WaveElement => {
-	return wave.elements
-		.flatMap((elementsColumn) => elementsColumn)
-		.filter((waveElement) => waveElement.entropy != 0)
-		.reduce((waveElement: WaveElement, nextWaveElement: WaveElement) =>
-			waveElement.entropy > nextWaveElement.entropy ? nextWaveElement : waveElement
-		);
-};
-
-const propagateWave = (wave: Wave, waveElement: WaveElement) => {
-	const ElementToPropagateTo: WaveElement[] = [];
-
-	const { elements, width, height, translations } = wave;
-
-	const propagate = () => {
-		const nextWaveElement = ElementToPropagateTo.pop();
-		if (!nextWaveElement) {
-			return;
-		}
-		// We'll need to compare entropies to know if the element has reduced
-		const { entropy, position } = nextWaveElement;
-		const connexWaveElements = translations
-			.filter(
-				(translation) =>
-					position.x + translation.x >= 0 &&
-					position.x + translation.x < width &&
-					position.y + translation.y >= 0 &&
-					position.y + translation.y < height
-			)
-			.map((translation) => elements[position.x + translation.x][position.y + translation.y]);
-		reduceWaveElement(wave, nextWaveElement, connexWaveElements);
-
-		if (nextWaveElement.entropy == 0 || nextWaveElement.entropy != entropy) {
-			const waveElementsToPropagateTo = connexWaveElements
-				.filter((connexWaveElement) => connexWaveElement.entropy != 0)
-				.filter((connexWaveElement) =>
-					ElementToPropagateTo.every((otherWaveElement) => connexWaveElement != otherWaveElement)
-				);
-
-			ElementToPropagateTo.push(...waveElementsToPropagateTo);
-		}
-	};
-
-	ElementToPropagateTo.push(waveElement);
-
-	while (ElementToPropagateTo.length > 0) {
-		propagate();
+const getWaveElementWithLowestEntropy = (elements: WaveElement[]): null | WaveElement => {
+	let elementWithLowestEntropy: null | WaveElement = null;
+	const { length } = elements;
+	const index = elements.findIndex((waveElement) => waveElement.entropy != 0);
+	elementWithLowestEntropy = elements[index];
+	for (let i = index + 1; i < length; i++) {
+		const element = elements[i];
+		elementWithLowestEntropy =
+			element.entropy != 0 && element.entropy < elementWithLowestEntropy.entropy ? element : elementWithLowestEntropy;
 	}
+	return elementWithLowestEntropy;
 };
 
 const collapseWave = (wave: Wave) => {
-	const collapse = () => {
-		const waveElement = getWaveElementWithLowestEntropy(wave);
+	for (;;) {
+		const waveElement = getWaveElementWithLowestEntropy(wave.elements);
+		if (!waveElement) {
+			// The whole wave has collapsed
+			break;
+		}
 		collapseWaveElement(waveElement);
-		propagateWave(wave, waveElement);
-	};
-
-	while (!hasCollapsed(wave)) {
-		collapse();
+		propagateWave(waveElement);
 	}
 };
 
-export default function getCanvasFromPatterns(patterns: Pattern[], width: number, height: number, patternSize: number) {
+const computeConnexElements = (
+	wave: Wave,
+	compatibilityMaps: CompatibilityMaps,
+	width: number,
+	height: number,
+	patternWidth: number,
+	patternHeight: number
+) => {
+	wave.elements.forEach((waveElement, index) => {
+		compatibilityMaps.forEach((column, i) =>
+			column.forEach((compatibilityMap, j) => {
+				// If we have NxM patterns, some translation aren't relevant
+				if (compatibilityMap.size != 0) {
+					const x = (index % width) + i - (patternWidth - 1);
+					const y = Math.floor(index / width) + j - (patternHeight - 1);
+
+					if (x >= 0 && x < width && y >= 0 && y < height) {
+						waveElement.connexElements.push({
+							connexElement: wave.elements[x + width * y],
+							compatibilityMap
+						});
+					}
+				}
+			})
+		);
+	});
+};
+
+export default function getCanvasFromPatterns(
+	patterns: Pattern[],
+	compatibilityMaps: CompatibilityMaps,
+	width: number,
+	height: number,
+	patternWidth: number,
+	patternHeight: number
+) {
+	const elements = Array.from(Array(width * height), () => ({
+		entropy: getEntropy(patterns),
+		possiblePatterns: patterns.slice(0),
+		connexElements: []
+	}));
+
 	const wave = {
-		elements: Array.from(Array(width), (_, x) =>
-			Array.from(Array(height), (_, y) => ({
-				entropy: getEntropy(patterns),
-				possiblePatterns: patterns.slice(0),
-				position: { x, y }
-			}))
-		),
-		width,
-		height,
-		patternSize,
-		translations: getTranslations(patternSize)
+		elements,
+		elementWithLowestEntropy: getWaveElementWithLowestEntropy(elements)
 	};
+
+	computeConnexElements(wave, compatibilityMaps, width, height, patternWidth, patternHeight);
 	collapseWave(wave);
+	console.log(wave);
 	const canvas = Array.from(Array(width * height), () => 180);
-	wave.elements.forEach((elementsColumn, i) =>
-		elementsColumn.forEach((waveElement, j) => {
-			canvas[i + j * width] = waveElement.possiblePatterns[0].tile[0][0];
-		})
-	);
+	wave.elements.forEach((waveElement, index) => {
+		canvas[index] = !!waveElement.possiblePatterns[0] ? waveElement.possiblePatterns[0].tile[0][0] : -1;
+	});
 	return canvas;
 }

@@ -1,16 +1,18 @@
 export default function areCompatible(
 	tile: number[][],
 	otherTile: number[][],
-	tileSize: number,
+	tileWidth: number,
+	tileHeight: number,
 	translation: { x: number; y: number }
 ): boolean {
-	return tile.every((tileColumn, i) =>
-		tileColumn.every((value, j) => {
-			const position = { x: i - translation.x, y: j - translation.y };
-			if (position.x < 0 || position.x >= tileSize || position.y < 0 || position.y >= tileSize) {
-				return true;
+	for (let i = 0; i < tileWidth; i++) {
+		for (let j = 0; j < tileHeight; j++) {
+			const x = i - translation.x;
+			const y = j - translation.y;
+			if (x >= 0 && x < tileWidth && y >= 0 && y < tileHeight && tile[i][j] != otherTile[x][y]) {
+				return false;
 			}
-			return value == otherTile[position.x][position.y];
-		})
-	);
+		}
+	}
+	return true;
 }

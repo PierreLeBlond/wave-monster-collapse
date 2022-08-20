@@ -1,11 +1,8 @@
 import type { WaveElement } from './WaveElement';
 
 interface Wave {
-	elements: WaveElement[][];
-	width: number;
-	height: number;
-	patternSize: number;
-	translations: { x: number; y: number }[];
+	elements: WaveElement[];
+	elementWithLowestEntropy: WaveElement;
 }
 
 export type { Wave };

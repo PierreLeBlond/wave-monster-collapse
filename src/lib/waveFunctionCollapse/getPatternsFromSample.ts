@@ -22,7 +22,8 @@ const getRotatedPatterns = (tile: number[][]) => {
 // https://medium.com/swlh/wave-function-collapse-tutorial-with-a-basic-exmaple-implementation-in-python-152d83d5cdb1
 export default function getPatternsFromSample(
 	sample: number[][],
-	patternSize: number,
+	patternWidth: number,
+	patternHeight: number,
 	withRotations: boolean
 ): Pattern[] {
 	const patterns: Pattern[] = [];
@@ -33,11 +34,11 @@ export default function getPatternsFromSample(
 
 	// As we take a NxN pattern, we stop N-1 pixel before reaching the sample
 	// boundaries
-	for (let i = 0; i < width - (patternSize - 1); i++) {
-		for (let j = 0; j < height - (patternSize - 1); j++) {
-			const tile = Array.from(Array(patternSize), () => Array(patternSize));
-			for (let x = 0; x < patternSize; x++) {
-				for (let y = 0; y < patternSize; y++) {
+	for (let i = 0; i < width - (patternWidth - 1); i++) {
+		for (let j = 0; j < height - (patternHeight - 1); j++) {
+			const tile = Array.from(Array(patternWidth), () => Array(patternHeight));
+			for (let x = 0; x < patternWidth; x++) {
+				for (let y = 0; y < patternHeight; y++) {
 					tile[x][y] = sample[i + x][j + y];
 				}
 			}

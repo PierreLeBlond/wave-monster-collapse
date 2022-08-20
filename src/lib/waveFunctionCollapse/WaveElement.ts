@@ -3,7 +3,10 @@ import type { Pattern } from './Pattern';
 interface WaveElement {
 	entropy: number;
 	possiblePatterns: Pattern[];
-	position: { x: number; y: number };
+	connexElements: {
+		connexElement: WaveElement;
+		compatibilityMap: Map<Pattern, Map<Pattern, boolean>>;
+	}[];
 }
 
 export type { WaveElement };
