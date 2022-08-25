@@ -1,4 +1,4 @@
-import getRotations from '../src/lib/waveFunctionCollapse/getRotations';
+import getRotations from '../src/lib/waveFunctionCollapse/getTileInfos/getRotations';
 
 test('size 2 rotations', () => {
 	expect(

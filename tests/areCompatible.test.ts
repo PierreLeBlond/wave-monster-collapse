@@ -1,4 +1,4 @@
-import areCompatible from '../src/lib/waveFunctionCollapse/areCompatible';
+import areCompatible from '../src/lib/waveFunctionCollapse/getTileInfos/areCompatible';
 
 test('compatible on diagonal', () => {
 	expect(

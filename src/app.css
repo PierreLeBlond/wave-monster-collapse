@@ -1,6 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: virgil;
-  src: url(Virgil.woff2);
+  src: url('/Virgil.woff2');
 }
 
 body {

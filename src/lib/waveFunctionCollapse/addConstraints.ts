@@ -1,7 +1,7 @@
 import type { Constraint } from './Constraint';
-import getEntropy from './getEntropy';
-import propagateWave from './propagateWave';
-import type { Wave } from './Wave';
+import getEntropy from './getCanvasFromPatterns/getEntropy';
+import propagateWave from './getCanvasFromPatterns/propagateWave';
+import type { Wave } from './getCanvasFromPatterns/Wave';
 
 export default function addConstraints(wave: Wave, width: number, constraints: Constraint[]) {
 	constraints.forEach(({ x, y, value }) => {
