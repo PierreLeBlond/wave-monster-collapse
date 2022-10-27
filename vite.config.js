@@ -7,6 +7,7 @@ export default defineConfig({
     target: 'es6',
     manifest: true
   },
+  base: '/wave-monster-collapse/',
   server: { port: 8081, strictPort: true },
   plugins: [svelte()],
   assetsInclude: ['**/*.xml']
