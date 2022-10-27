@@ -12,6 +12,7 @@ test('compatible on diagonal', () => {
 				[0, 1]
 			],
 			2,
+			2,
 			{ x: 1, y: -1 }
 		)
 	).toBe(true);
@@ -28,6 +29,7 @@ test('compatible on side', () => {
 				[0, 1],
 				[1, 1]
 			],
+			2,
 			2,
 			{ x: 1, y: 0 }
 		)
@@ -46,6 +48,7 @@ test('not compatible on diagonal', () => {
 				[0, 1]
 			],
 			2,
+			2,
 			{ x: 1, y: -1 }
 		)
 	).toBe(false);
@@ -62,6 +65,7 @@ test('not compatible on side', () => {
 				[0, 0],
 				[1, 1]
 			],
+			2,
 			2,
 			{ x: 1, y: 0 }
 		)
@@ -81,6 +85,7 @@ test('size 3 compatible', () => {
 				[1, 0, 1],
 				[0, 1, 1]
 			],
+			3,
 			3,
 			{ x: 1, y: -1 }
 		)

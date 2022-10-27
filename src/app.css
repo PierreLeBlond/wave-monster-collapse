@@ -1,20 +1,15 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+	/* Write your global styles here, in PostCSS syntax */
 
-@font-face {
-  font-family: virgil;
-  src: url('/Virgil.woff2');
-}
+	@font-face {
+		font-family: virgil;
+		src: url('/Virgil.woff2');
+	}
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  background-color: #EEE;
-  font-family: 'virgil';
-}
+	main {
+		font-family: 'virgil';
+	}
+
+	@tailwind components;
+
+	@tailwind utilities;
