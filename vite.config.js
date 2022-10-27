@@ -5,7 +5,12 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   build: {
     target: 'es6',
-    manifest: true
+    rollupOptions: {
+      output: {
+        entryFileNames: 'main.js',
+        assetFileNames: (assetInfos) => assetInfos?.name == "index.css" ? "main.css" : "assets/[name].[hash][extname]"
+      }
+    }
   },
   base: '/wave-monster-collapse/',
   server: { port: 8081, strictPort: true },

@@ -1,0 +1,21 @@
+name: Deploy to development
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm run build
+      - uses: garygrossgarten/github-action-scp@release
+        with:
+          local: dist
+          remote: app/wave-monster-collapse/dev
+          rmRemote: true
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
