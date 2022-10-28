@@ -34,6 +34,9 @@
 		on:click={() => {
 			tilesetInfos = tilesetInfos;
 		}}
+		on:keydown={() => {
+			tilesetInfos = tilesetInfos;
+		}}
 	>
 		<img class="w-14" src="./assets/reload.png" alt="settings" />
 	</div>
@@ -45,6 +48,9 @@
 			on:click={() => {
 				mapSize = Math.max(3, mapSize - 1);
 			}}
+			on:keydown={() => {
+				mapSize = Math.max(3, mapSize - 1);
+			}}
 		>
 			<img class="w-8" src="./assets/minus.png" alt="minus" />
 		</div>
@@ -53,6 +59,9 @@
 			class="w-10 p-2 cursor-pointer"
 			style="background-image: url(./assets/item.png); background-size: 100% 100%;"
 			on:click={() => {
+				mapSize = Math.min(42, mapSize + 1);
+			}}
+			on:keydown={() => {
 				mapSize = Math.min(42, mapSize + 1);
 			}}
 		>
@@ -66,6 +75,7 @@
 				class:selected={pattern.name == selectedPattern?.name}
 				class="flex flex-wrap w-16 p-2"
 				on:click={() => selectPattern(pattern)}
+				on:keydown={() => selectPattern(pattern)}
 			>
 				<img class="w-14" src={tilesUrls[pattern.name]} alt={pattern.name} />
 			</li>
