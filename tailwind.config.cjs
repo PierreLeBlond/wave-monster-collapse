@@ -3,6 +3,7 @@ const config = {
 	theme: {
 		extend: {}
 	},
+	prefix: 'tw-', // Avoid conflict with other framework like bootstrap
 
 	plugins: []
 };

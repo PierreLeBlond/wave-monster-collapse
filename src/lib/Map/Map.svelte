@@ -3,6 +3,7 @@
 	import type { TilesetPattern } from '../waveFunctionCollapse/getTilesetInfos/TilesetPattern';
 	import type { TilesetInfos } from '../waveFunctionCollapse/getTilesetInfos/TilesetInfos';
 	import tilesUrls from '../assets/tiles';
+	import border from '../assets/ui/border.png';
 
 	const kRotations = ['0deg', '-90deg', '180deg', '90deg'];
 
@@ -27,19 +28,19 @@
 </script>
 
 <div
-	class="h-full aspect-square flex grow-0 shrink-0 justify-center items-center"
+	class="tw-w-full md:tw-w-auto md:tw-h-full tw-aspect-square tw-p-5 tw-flex tw-grow-0 tw-shrink-0 tw-justify-center tw-items-center"
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 >
 	<div
-		class="p-5 flex flex-wrap justify-center content-center"
-		style="width: {size}px; height: {size}px; background-image: url(./assets/border.png); background-size: 100% 100%; background-position: center;"
+		class="tw-p-3 tw-flex tw-flex-wrap tw-justify-center tw-content-center"
+		style="width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
 	>
 		{#each canvas as value}
 			<div style="width: {100 / mapSize}%; height: {100 / mapSize}%;">
 				{#if value}
 					<img
-						class="w-full h-full"
+						class="tw-w-full tw-h-full"
 						style="transform: rotate({kRotations[value.transformationIndex]})"
 						src={tilesUrls[value.name]}
 						alt={value.name}

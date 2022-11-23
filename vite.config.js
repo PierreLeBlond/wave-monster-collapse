@@ -12,8 +12,7 @@ export default defineConfig({
       }
     }
   },
-  base: process.env.NODE_ENV == 'production' ? `https://app.pierrelespingal.com/wave-monster-collapse/v${process.env.npm_package_version}/` : 'http://localhost:8081/',
-  server: { port: 8081, strictPort: true },
+  server: { origin: 'http://localhost:8081', port: 8081, strictPort: true },
   plugins: [svelte()],
   assetsInclude: ['**/*.xml']
 })

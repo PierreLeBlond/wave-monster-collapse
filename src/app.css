@@ -1,15 +1,3 @@
 @tailwind base;
-	/* Write your global styles here, in PostCSS syntax */
-
-	@font-face {
-		font-family: virgil;
-		src: url('/Virgil.woff2');
-	}
-
-	main {
-		font-family: 'virgil';
-	}
-
-	@tailwind components;
-
-	@tailwind utilities;
+@tailwind components;
+@tailwind utilities;
