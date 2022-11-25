@@ -1,10 +1,16 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    target: 'es6',
+    lib: {
+      formats: ['es'],
+      entry: resolve(__dirname, 'src/main.ts'),
+      name: 'WaveMonsterCollapse',
+      fileName: 'wave-monster-collapse'
+    },
     rollupOptions: {
       output: {
         entryFileNames: 'main.js',
