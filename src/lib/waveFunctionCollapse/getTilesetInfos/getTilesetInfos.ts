@@ -1,5 +1,5 @@
-import getInfosFromXml from './getInfosFromXml';
 import type { TilesetInfos } from './TilesetInfos';
+import { tilesetInfos } from './tilesetInfosObject';
 
 const transformationsFromSymmetry: { [key: string]: { cardinality: number; transformations: number[] } } = {
 	I: {
@@ -38,10 +38,13 @@ const cayleyTable = [
 	[8, 5, 7, 6, 2, 4, 3, 1]
 ];
 
-export default async function getTilesetInfos(xmlFileUrl: string): Promise<TilesetInfos> {
+export default async function getTilesetInfos(): Promise<TilesetInfos> {
 	const patternsMap = new Map();
 
-	const { tiles, neighbors } = await getInfosFromXml(xmlFileUrl);
+	//const { tiles, neighbors } = await getInfosFromXml(xmlFileUrl);
+	const { tiles, neighbors } = tilesetInfos;
+
+	console.log(JSON.stringify({ tiles, neighbors }));
 
 	tiles.forEach((tile) => {
 		const { name, frequency, symmetry } = tile;

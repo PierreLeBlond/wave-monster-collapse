@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import Map from './Map/Map.svelte';
 	import Control from './Panel/Control.svelte';
-	import xmlFile from './assets/Circuit.xml?url';
 	import getTilesetInfos from './waveFunctionCollapse/getTilesetInfos/getTilesetInfos';
 	import type { TilesetInfos } from './waveFunctionCollapse/getTilesetInfos/TilesetInfos';
 
@@ -11,7 +10,7 @@
 	let tilesetInfos: TilesetInfos;
 	let display = false;
 	onMount(async () => {
-		tilesetInfos = await getTilesetInfos(xmlFile);
+		tilesetInfos = await getTilesetInfos();
 		display = true;
 	});
 </script>
