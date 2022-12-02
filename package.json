@@ -42,7 +42,12 @@
 		"tailwindcss": "^3.1.5"
 	},
 	"type": "module",
+	"engines": {
+		"node": ">=14.17.0"
+	},
 	"publishConfig": {
 		"access": "public"
-	}
+	},
+	"author": "PierreLeBlond",
+	"license": "ISC"
 }
