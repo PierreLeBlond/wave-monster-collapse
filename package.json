@@ -1,5 +1,5 @@
 {
-	"name": "wave-monster-collapse",
+	"name": "@s0rt/wave-monster-collapse",
 	"version": "2.0.0",
 	"scripts": {
 		"dev": "NODE_ENV=development vite dev",
@@ -9,9 +9,11 @@
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
 		"format": "prettier --write --plugin-search-dir=. .",
-		"test": "NODE_OPTIONS=--experimental-vm-modules jest"
+		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
+		"package": "svelte-package"
 	},
 	"devDependencies": {
+		"@sveltejs/package": "^1.0.0-next.6",
 		"@sveltejs/vite-plugin-svelte": "^1.0.1",
 		"@tsconfig/svelte": "^3.0.0",
 		"@types/cookie": "^0.5.1",
@@ -27,15 +29,17 @@
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.7",
-		"tailwindcss": "^3.1.5",
 		"ts-jest": "^28.0.8",
 		"tslib": "^2.3.1",
 		"typescript": "^4.7.4",
 		"vite": "^3.0.0",
 		"vite-plugin-package-version": "^1.0.2"
+	},
+	"dependencies": {
+		"svelte": "^3.46.0",
+		"tailwindcss": "^3.1.5"
 	},
 	"type": "module"
 }

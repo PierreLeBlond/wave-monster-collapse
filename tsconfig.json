@@ -3,12 +3,43 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "resolveJsonModule": true,
     "baseUrl": ".",
+    "declaration": true,
+    // Type checking
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "exactOptionalPropertyTypes": true,
+    // "noFallthroughCasesInSwitch": true, // We don't use switch statement anyway
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // Let's be strict, covers and enables several strictness options
+    "strict": true,
+    // Module
+    "allowUmdGlobalAccess": false,
+    // "baseUrl": "",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noResolve": false,
+    "resolveJsonModule": true,
+    "importsNotUsedAsValues": "error",
+    "newLine": "lf",
+    "preserveConstEnums": true,
+    "preserveValueImports": true,
+    "sourceMap": true,
     "allowJs": false,
     "checkJs": false,
-    "isolatedModules": true
+    "allowSyntheticDefaultImports": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.d.ts",

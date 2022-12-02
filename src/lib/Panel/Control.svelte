@@ -18,9 +18,9 @@
 	// };
 </script>
 
-<div class="tw-w-96 tw-relative tw-flex tw-grow tw-justify-center tw-gap-x-16">
+<div class="w-96 relative flex grow justify-center gap-x-16">
 	<div
-		class="tw-w-16 tw-p-2 tw-cursor-pointer"
+		class="w-16 p-2 cursor-pointer"
 		on:click={() => {
 			tilesetInfos = tilesetInfos;
 		}}
@@ -28,12 +28,12 @@
 			tilesetInfos = tilesetInfos;
 		}}
 	>
-		<img class="tw-w-14" src={reload} alt="settings" />
+		<img class="w-14" src={reload} alt="settings" />
 	</div>
 
-	<div class="tw-flex tw-justify-evenly">
+	<div class="flex justify-evenly">
 		<div
-			class="tw-w-10 tw-p-2 tw-cursor-pointer"
+			class="w-10 p-2 cursor-pointer"
 			on:click={() => {
 				mapSize = Math.max(3, mapSize - 1);
 			}}
@@ -41,11 +41,11 @@
 				mapSize = Math.max(3, mapSize - 1);
 			}}
 		>
-			<img class="tw-w-8" src={minus} alt="minus" />
+			<img class="w-8" src={minus} alt="minus" />
 		</div>
-		<div class="tw-w-14 tw-p-2 tw-text-center tw-align-bottom"><p>{mapSize}</p></div>
+		<div class="w-14 p-2 text-center align-bottom"><p>{mapSize}</p></div>
 		<div
-			class="tw-w-10 tw-p-2 tw-cursor-pointer"
+			class="w-10 p-2 cursor-pointer"
 			on:click={() => {
 				mapSize = Math.min(42, mapSize + 1);
 			}}
@@ -53,7 +53,7 @@
 				mapSize = Math.min(42, mapSize + 1);
 			}}
 		>
-			<img class="tw-w-8" src={plus} alt="plus" />
+			<img class="w-8" src={plus} alt="plus" />
 		</div>
 	</div>
 </div>

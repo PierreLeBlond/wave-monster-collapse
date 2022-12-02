@@ -28,19 +28,19 @@
 </script>
 
 <div
-	class="tw-w-full md:tw-w-auto md:tw-h-full tw-aspect-square tw-p-5 tw-flex tw-grow-0 tw-shrink-0 tw-justify-center tw-items-center"
+	class="w-full md:w-auto md:h-full aspect-square p-5 flex grow-0 shrink-0 justify-center items-center"
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 >
 	<div
-		class="tw-p-3 tw-flex tw-flex-wrap tw-justify-center tw-content-center"
+		class="p-3 flex flex-wrap justify-center content-center"
 		style="width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
 	>
 		{#each canvas as value}
 			<div style="width: {100 / mapSize}%; height: {100 / mapSize}%;">
 				{#if value}
 					<img
-						class="tw-w-full tw-h-full"
+						class="w-full h-full"
 						style="transform: rotate({kRotations[value.transformationIndex]})"
 						src={tilesUrls[value.name]}
 						alt={value.name}
