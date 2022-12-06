@@ -1,31 +1,38 @@
+import type { Symmetry } from './Symmetry';
 import type { TilesetInfos } from './TilesetInfos';
-import { tilesetInfos } from './tilesetInfosObject';
+import { tilesetDatasObject } from './tilesetDatasObject';
+import type { TilesetCompatibilityMaps } from './TilesetCompatibilityMaps';
 
-const transformationsFromSymmetry: { [key: string]: { cardinality: number; transformations: number[] } } = {
-	I: {
+interface Transformation {
+	cardinality: number,
+	transformations: number[]
+}
+
+const transformationsFromSymmetry: Map<Symmetry, Transformation> = new Map([
+	['I', {
 		cardinality: 2,
 		transformations: [0, 1, 0, 1, 0, 0, 1, 1]
-	},
-	X: {
+	}],
+	['X', {
 		cardinality: 1,
 		transformations: [0, 0, 0, 0, 0, 0, 0, 0]
-	},
-	T: {
+	}],
+	['T', {
 		cardinality: 4,
 		transformations: [0, 1, 2, 3, 2, 0, 3, 1]
-	},
-	L: {
+	}],
+	['L', {
 		cardinality: 4,
 		transformations: [0, 1, 2, 3, 3, 1, 0, 2]
-	},
-	'\\': {
+	}],
+	['\\', {
 		cardinality: 2,
 		transformations: [0, 1, 0, 1, 1, 1, 0, 0]
-	}
-};
+	}]
+]);
 
-const directionFromTransformationIndex = [0, 1, 2, 3, 0, 2, 1, 3];
-const directionFromInvertedTransformationIndex = [2, 3, 0, 1, 2, 0, 3, 1];
+const directionFromTransformationIndex: number[] = [0, 1, 2, 3, 0, 2, 1, 3];
+const directionFromInvertedTransformationIndex: number[] = [2, 3, 0, 1, 2, 0, 3, 1];
 
 const cayleyTable = [
 	[1, 2, 3, 4, 5, 6, 7, 8],
@@ -38,18 +45,19 @@ const cayleyTable = [
 	[8, 5, 7, 6, 2, 4, 3, 1]
 ];
 
-export default async function getTilesetInfos(): Promise<TilesetInfos> {
+export default function getTilesetInfos(): TilesetInfos {
 	const patternsMap = new Map();
 
-	//const { tiles, neighbors } = await getInfosFromXml(xmlFileUrl);
-	const { tiles, neighbors } = tilesetInfos;
-
-	console.log(JSON.stringify({ tiles, neighbors }));
+	const { tiles, neighbors } = tilesetDatasObject;
 
 	tiles.forEach((tile) => {
 		const { name, frequency, symmetry } = tile;
 
-		const transformations = transformationsFromSymmetry[symmetry];
+		const transformations = transformationsFromSymmetry.get(symmetry);
+
+		if (!transformations) {
+			throw new Error(`Couldn't get transformations for symmetry ${symmetry}.`)
+		}
 
 		const transformedPatterns = [];
 		for (let i = 0; i < transformations.cardinality; i++) {
@@ -74,21 +82,22 @@ export default async function getTilesetInfos(): Promise<TilesetInfos> {
 		pattern.frequency /= totalFrequency;
 	});
 
-	const compatibilityMaps = Array.from(Array(4), () => new Map());
+	const compatibilityMaps: TilesetCompatibilityMaps = Array.from(Array(4), () => new Map());
 
 	compatibilityMaps.forEach((compatibilityMapsFromTransformation) => {
 		patterns.forEach((pattern) => {
-			compatibilityMapsFromTransformation.set(pattern, new Map());
+			const map = new Map();
+			compatibilityMapsFromTransformation.set(pattern, map);
 			patterns.forEach((nextPattern) => {
-				compatibilityMapsFromTransformation.get(pattern).set(nextPattern, false);
+				map.set(nextPattern, false);
 			});
 		});
 	});
 
 	neighbors.forEach((neighbor) => {
 		for (let i = 0; i < 8; i++) {
-			const leftPatternTransformationIndex = cayleyTable[Number(neighbor.leftPattern.index)][i] - 1;
-			const rightPatternTransformationIndex = cayleyTable[Number(neighbor.rightPattern.index)][i] - 1;
+			const leftPatternTransformationIndex = (cayleyTable[Number(neighbor.leftPattern.index)] as number[])[i] as number - 1;
+			const rightPatternTransformationIndex = (cayleyTable[Number(neighbor.rightPattern.index)] as number[])[i] as number - 1;
 
 			const leftPattern = patternsMap.get(neighbor.leftPattern.name);
 			const leftTransformedPattern =
@@ -97,12 +106,31 @@ export default async function getTilesetInfos(): Promise<TilesetInfos> {
 			const rightTransformedPattern =
 				rightPattern.transformedPatterns[rightPattern.transformations[rightPatternTransformationIndex]];
 
-			compatibilityMaps[directionFromTransformationIndex[i]]
-				.get(leftTransformedPattern)
-				.set(rightTransformedPattern, true);
-			compatibilityMaps[directionFromInvertedTransformationIndex[i]]
-				.get(rightTransformedPattern)
-				.set(leftTransformedPattern, true);
+			const direction = directionFromTransformationIndex[i] as number;
+
+			const compatibilityMap = compatibilityMaps[direction];
+			if (!compatibilityMap) {
+				throw new Error(`Could'nt find compatibility map`);
+			}
+
+			const patternCompatibilityMap = compatibilityMap.get(leftTransformedPattern);
+			if (!patternCompatibilityMap) {
+				throw new Error(`Could'nt find pattern compatibility map`);
+			}
+			patternCompatibilityMap.set(rightTransformedPattern, true);
+
+			const invertedDirection = directionFromInvertedTransformationIndex[i] as number;
+
+			const invertedCompatibilityMap = compatibilityMaps[invertedDirection];
+			if (!invertedCompatibilityMap) {
+				throw new Error(`Could'nt find inverted compatibility map`);
+			}
+
+			const patternInvertedCompatibilityMap = invertedCompatibilityMap.get(rightTransformedPattern);
+			if (!patternInvertedCompatibilityMap) {
+				throw new Error(`Could'nt find pattern inverted compatibility map`);
+			}
+			patternInvertedCompatibilityMap.set(leftTransformedPattern, true);
 		}
 	});
 

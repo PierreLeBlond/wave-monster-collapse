@@ -4,6 +4,7 @@
 	import type { TilesetInfos } from '../waveFunctionCollapse/getTilesetInfos/TilesetInfos';
 	import tilesUrls from '../assets/tiles';
 	import border from '../assets/ui/border.png';
+	import type { TilesetCompatibilityMaps } from '../waveFunctionCollapse/getTilesetInfos/TilesetCompatibilityMaps';
 
 	const kRotations = ['0deg', '-90deg', '180deg', '90deg'];
 
@@ -14,17 +15,24 @@
 	export let mapSize: number;
 	export let tilesetInfos: TilesetInfos;
 
-	$: mapWidth = mapSize;
-	$: mapHeight = mapSize;
+	let mapWidth: number;
+	let mapHeight: number;
 
-	$: compatibilityMaps = tilesetInfos.compatibilityMaps;
-	$: patterns = tilesetInfos.patterns.filter(({ available }) => available);
+	let compatibilityMaps: TilesetCompatibilityMaps;
+	let patterns: TilesetPattern[];
+
 	let canvas: TilesetPattern[] = [];
-	$: {
-		if (patterns.length > 0) {
-			canvas = getCanvasFromPatterns(patterns, compatibilityMaps, mapWidth, mapHeight) as TilesetPattern[];
-		}
-	}
+
+	export const update = (newMapSize: number) => {
+		mapWidth = newMapSize;
+		mapHeight = newMapSize;
+		compatibilityMaps = tilesetInfos.compatibilityMaps;
+		patterns = tilesetInfos.patterns.filter(({ available }) => available);
+
+		canvas = getCanvasFromPatterns(patterns, compatibilityMaps, mapWidth, mapHeight) as TilesetPattern[];
+	};
+
+	$: update(mapSize);
 </script>
 
 <div

@@ -1,33 +1,15 @@
 <script lang="ts">
-	import type { TilesetInfos } from '../waveFunctionCollapse/getTilesetInfos/TilesetInfos';
-	import type { TilesetPattern } from '../waveFunctionCollapse/getTilesetInfos/TilesetPattern';
 	import plus from '../assets/ui/plus.png';
 	import minus from '../assets/ui/minus.png';
 	import reload from '../assets/ui/reload.png';
 
 	export let mapSize: number;
-	export let tilesetInfos: TilesetInfos;
 
-	// const changeAvailability = (pattern: TilesetPattern) => {
-	//   const { available } = pattern;
-	//   tilesetInfos.patterns.filter(otherPattern => otherPattern.name == pattern.name).forEach(otherPattern => {
-	//     otherPattern.available = !available;
-	//   });
-	//   // triggers reactivity
-	//   tilesetInfos = tilesetInfos;
-	// };
+	export let update: (newMapSize: number) => void;
 </script>
 
 <div class="w-96 relative flex grow justify-center gap-x-16">
-	<div
-		class="w-16 p-2 cursor-pointer"
-		on:click={() => {
-			tilesetInfos = tilesetInfos;
-		}}
-		on:keydown={() => {
-			tilesetInfos = tilesetInfos;
-		}}
-	>
+	<div class="w-16 p-2 cursor-pointer" on:click={() => update(mapSize)} on:keydown={() => update(mapSize)}>
 		<img class="w-14" src={reload} alt="settings" />
 	</div>
 
