@@ -8,9 +8,11 @@
 
 	const kRotations = ['0deg', '-90deg', '180deg', '90deg'];
 
-	let width: number;
-	let height: number;
-	$: size = 0.9 * Math.min(width, height);
+	export let width: number;
+	export let height: number;
+
+	$: wrapperSize = Math.min(width, 0.75 * height);
+	$: size = 0.9 * wrapperSize;
 
 	export let mapSize: number;
 	export let tilesetInfos: TilesetInfos;
@@ -36,12 +38,11 @@
 </script>
 
 <div
-	class="w-full md:w-auto md:h-full aspect-square p-5 flex grow-0 shrink-0 justify-center items-center"
-	bind:clientWidth={width}
-	bind:clientHeight={height}
+	class="h-3/4 max-w-full aspect-square p-5 flex justify-center items-center"
+	style="width: {wrapperSize}px; height: {wrapperSize}px"
 >
 	<div
-		class="p-3 flex flex-wrap justify-center content-center"
+		class="p-3 relative flex flex-wrap justify-center content-center"
 		style="width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
 	>
 		{#each canvas as value}
