@@ -14,7 +14,7 @@ jobs:
         npm install
         npm run package
     - name: publish
-      working-directory: ./app
+      working-directory: ./package
       run: npm publish
       env:
         NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
