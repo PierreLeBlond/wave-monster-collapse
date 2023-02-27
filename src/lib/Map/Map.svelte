@@ -42,8 +42,9 @@
 	style="width: {wrapperSize}px; height: {wrapperSize}px"
 >
 	<div
-		class="p-3 relative flex flex-wrap justify-center content-center"
-		style="width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
+		class="relative flex flex-wrap justify-center content-center"
+		style="padding: {size /
+			30}px; width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
 	>
 		{#each canvas as value}
 			<div style="width: {100 / mapSize}%; height: {100 / mapSize}%;">
