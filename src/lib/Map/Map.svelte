@@ -8,11 +8,8 @@
 
 	const kRotations = ['0deg', '-90deg', '180deg', '90deg'];
 
-	export let width: number;
-	export let height: number;
-
-	$: wrapperSize = Math.min(width, 0.75 * height);
-	$: size = 0.9 * wrapperSize;
+	export let wrapperSize: number;
+	$: size = wrapperSize;
 
 	export let mapSize: number;
 	export let tilesetInfos: TilesetInfos;
@@ -37,12 +34,9 @@
 	$: update(mapSize);
 </script>
 
-<div
-	class="h-3/4 max-w-full aspect-square p-5 flex justify-center items-center"
-	style="width: {wrapperSize}px; height: {wrapperSize}px"
->
+<div class="relative" style="width: {wrapperSize}px; height: {wrapperSize}px">
 	<div
-		class="relative flex flex-wrap justify-center content-center"
+		class="flex flex-wrap justify-center content-center"
 		style="padding: {size /
 			30}px; width: {size}px; height: {size}px; background-image: url({border}); background-size: 100% 100%; background-position: center;"
 	>
