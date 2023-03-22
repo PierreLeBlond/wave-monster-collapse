@@ -48,6 +48,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"files": [
+		"dist"
+	],
 	"exports": {
 		".": {
 			"types": "./dist/WaveMonsterCollapse.svelte.d.ts",
