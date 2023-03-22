@@ -1,6 +1,6 @@
 {
 	"name": "@s0rt/wave-monster-collapse",
-	"version": "4.2.1",
+	"version": "4.2.2",
 	"scripts": {
 		"dev": "NODE_ENV=development vite dev",
 		"build": "NODE_ENV=production vite build",
