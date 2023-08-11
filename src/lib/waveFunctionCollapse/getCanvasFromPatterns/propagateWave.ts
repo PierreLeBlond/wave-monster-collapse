@@ -11,8 +11,16 @@ export default function propagateWave(waveElement: WaveElement) {
 
 		const { length } = connexElements;
 
+		/* we use a for loop for performance */
 		for (let i = 0; i < length; i++) {
-			const { connexElement, compatibilityMap } = connexElements[i];
+
+			const element = connexElements[i];
+
+			if (!element) {
+				throw new Error('connex element does not exists');
+			}
+
+			const { connexElement, compatibilityMap } = element;
 			if (connexElement.entropy != 0) {
 				const possiblePatternsLength = connexElement.possiblePatterns.length;
 				reduceWaveElement(compatibilityMap, connexElement, nextWaveElement);

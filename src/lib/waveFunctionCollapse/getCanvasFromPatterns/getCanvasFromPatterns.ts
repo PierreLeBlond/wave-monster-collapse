@@ -17,17 +17,21 @@ const getWaveElementWithLowestEntropy = (elements: WaveElement[]): null | WaveEl
 	let elementWithLowestEntropy: null | WaveElement = null;
 	const { length } = elements;
 	const index = elements.findIndex((waveElement) => waveElement.entropy != 0);
-	elementWithLowestEntropy = elements[index];
+	elementWithLowestEntropy = elements[index] ?? null;
+	/* we use a for loop for performance */
 	for (let i = index + 1; i < length; i++) {
 		const element = elements[i];
+
 		elementWithLowestEntropy =
-			element.entropy != 0 && element.entropy < elementWithLowestEntropy.entropy ? element : elementWithLowestEntropy;
+			element && element.entropy != 0 && elementWithLowestEntropy && element.entropy < elementWithLowestEntropy.entropy
+				? element
+				: elementWithLowestEntropy;
 	}
 	return elementWithLowestEntropy;
 };
 
 const collapseWave = (wave: Wave) => {
-	for (;;) {
+	for (; ;) {
 		const waveElement = getWaveElementWithLowestEntropy(wave.elements);
 		if (!waveElement) {
 			// The whole wave has collapsed
@@ -45,9 +49,20 @@ const computeConnexElements = (wave: Wave, compatibilityMaps: CompatibilityMaps,
 			const y = Math.floor(index / width) + translation.y;
 
 			if (x >= 0 && x < width && y >= 0 && y < height) {
+
+				const connexElement = wave.elements[x + width * y];
+				if (!connexElement) {
+					throw new Error('Connex element does not exists');
+				}
+
+				const compatibilityMap = compatibilityMaps[i];
+				if (!compatibilityMap) {
+					throw new Error('CompatibilityMap does not exists');
+				}
+
 				waveElement.connexElements.push({
-					connexElement: wave.elements[x + width * y],
-					compatibilityMap: compatibilityMaps[i]
+					connexElement,
+					compatibilityMap
 				});
 			}
 		});

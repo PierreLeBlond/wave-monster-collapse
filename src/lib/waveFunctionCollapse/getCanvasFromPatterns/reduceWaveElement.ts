@@ -8,8 +8,9 @@ const hasCompatibility = (
 	possiblePatterns: Pattern[]
 ): boolean => {
 	const { length } = possiblePatterns;
+	/* we use a for loop for performance */
 	for (let i = 0; i < length; i++) {
-		if ((compatibilityMap.get(possiblePatterns[i]) as Map<Pattern, boolean>).get(pattern)) {
+		if ((compatibilityMap.get(possiblePatterns[i] as Pattern) as Map<Pattern, boolean>).get(pattern)) {
 			return true;
 		}
 	}
@@ -24,8 +25,9 @@ export default function reduceWaveElement(
 	const { length } = waveElement.possiblePatterns;
 
 	const possiblePatterns = [];
+	/* we use a for loop for performance */
 	for (let i = 0; i < length; i++) {
-		const pattern = waveElement.possiblePatterns[i];
+		const pattern = waveElement.possiblePatterns[i] as Pattern;
 		if (hasCompatibility(compatibilityMap, pattern, nextWaveElement.possiblePatterns)) {
 			possiblePatterns.push(pattern);
 		}

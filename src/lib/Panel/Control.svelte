@@ -12,6 +12,8 @@
 <div style:width="{wrapperSize}px" class="grid grid-cols-7">
 	<div
 		class="col-start-2 flex items-center p-2 cursor-pointer"
+		role="button"
+		tabindex="0"
 		on:click={() => update(mapSize)}
 		on:keydown={() => update(mapSize)}
 	>
@@ -20,6 +22,8 @@
 
 	<div
 		class="col-start-4 flex items-center p-2 cursor-pointer"
+		role="button"
+		tabindex="0"
 		on:click={() => {
 			mapSize = Math.max(3, mapSize - 1);
 		}}
@@ -34,6 +38,8 @@
 	</div>
 	<div
 		class="col-start-6 flex items-center p-2 cursor-pointer"
+		role="button"
+		tabindex="0"
 		on:click={() => {
 			mapSize = Math.min(42, mapSize + 1);
 		}}
